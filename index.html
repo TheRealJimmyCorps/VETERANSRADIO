@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BattlefieldRadio.net Command Centre</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Battlefield Radio">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#000;color:#39ff14;font-family:Arial,Helvetica,sans-serif}
+.app{width:min(760px,96vw);margin:0 auto;padding:18px 10px}
+.header{position:relative;height:132px;border:2px solid #39ff14;border-radius:14px;background:linear-gradient(145deg,#050505,#111,#030303);box-shadow:0 0 18px #39ff14,inset 0 0 22px #032003;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;margin-bottom:14px}
+.header h1{margin:0;font-size:38px;letter-spacing:2px;color:#aaff85;text-shadow:0 0 10px #39ff14,0 0 24px #39ff14}
+.header .tag{font-size:18px;letter-spacing:8px;color:#fff;margin-top:4px}
+.header .sub{font-size:11px;letter-spacing:4px;color:#39ff14;margin-top:8px}
+.radar{position:absolute;top:24px;width:82px;height:82px;border:2px solid #39ff14;border-radius:50%;background:repeating-radial-gradient(circle,rgba(57,255,20,.32) 0 1px,transparent 2px 15px),linear-gradient(90deg,transparent 49%,rgba(57,255,20,.35) 50%,transparent 51%),linear-gradient(0deg,transparent 49%,rgba(57,255,20,.35) 50%,transparent 51%);box-shadow:0 0 12px #39ff14,inset 0 0 14px rgba(57,255,20,.25);overflow:hidden}
+.radar.left{left:18px}.radar.right{right:18px}
+.sweep{position:absolute;inset:0;border-radius:50%;animation:spin 3s linear infinite}
+.sweep:before{content:"";position:absolute;left:50%;top:5px;width:2px;height:36px;background:#7dff68;box-shadow:0 0 10px #39ff14;transform:translateX(-50%)}
+.blip{position:absolute;width:6px;height:6px;border-radius:50%;background:#39ff14;box-shadow:0 0 8px #39ff14}
+.blip.a{left:52px;top:22px}.blip.b{left:27px;top:51px}.blip.c{left:60px;top:57px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.channel{display:grid;grid-template-columns:210px 1fr;gap:12px;min-height:184px;margin:12px 0;padding:10px;border:2px solid #39ff14;border-radius:12px;background:linear-gradient(145deg,#121812,#050505 60%,#111);box-shadow:0 0 15px #39ff14,inset 0 0 24px #000;position:relative}
+.channel:before,.channel:after{
+content:"";
+position:absolute;
+top:10px;
+width:12px;
+height:12px;
+border-radius:50%;
+background:radial-gradient(circle at 35% 35%,#f2f2f2,#bdbdbd 45%,#666 75%,#2a2a2a 100%);
+border:1px solid #444;
+box-shadow:inset 1px 1px 2px rgba(255,255,255,.6),0 0 2px #000;
+}
+.channel:before{left:12px}
+.channel:after{right:12px}
+.channel.active{border-color:#fff;box-shadow:0 0 18px #fff,0 0 36px #39ff14,inset 0 0 22px #39ff14}
+.logo{height:164px;border:3px solid #227a22;border-radius:10px;background:radial-gradient(circle,#102410,#020202 70%);box-shadow:inset 0 0 24px #000,0 0 12px #39ff14;display:flex;align-items:center;justify-content:center;padding:8px;overflow:hidden;align-self:center}
+.logo img{max-width:100%;max-height:100%;object-fit:contain}
+.info{position:relative;min-height:164px;border-left:3px solid #39ff14;padding:8px 10px 8px 16px}
+.topline{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.num{width:34px;height:34px;border:2px solid #39ff14;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:bold;color:#caffbd;box-shadow:0 0 10px #39ff14}
+.label{font-size:11px;letter-spacing:2px;color:#39ff14;border:1px solid #2f8f2f;border-radius:4px;padding:5px 9px;background:#030803}
+.name{font-size:32px;line-height:1;margin:7px 0 10px;color:#fff;text-shadow:0 0 8px #39ff14,0 0 16px #39ff14;letter-spacing:1px;max-width:300px}
+.signal{display:inline-block;border:1px solid #184818;border-radius:6px;background:#050505;padding:8px 12px;color:#39ff14;letter-spacing:1px;font-size:13px;margin-bottom:12px}
+.connect{position:absolute;right:10px;top:74px;width:148px;padding:13px 8px;font-size:18px;font-weight:bold;cursor:pointer;color:#fff;background:#101010;border:3px solid #39ff14;border-radius:8px;box-shadow:0 0 15px #39ff14,inset 0 0 10px #39ff14}
+.connect:hover{background:#39ff14;color:#000}
+.meter{display:flex;gap:5px;margin:14px 0 6px}
+.block{width:18px;height:14px;border-radius:2px;background:#111;border:1px solid #333}
+.meter.active .green{background:#39ff14;box-shadow:0 0 10px #39ff14}
+.meter.active .yellow{background:#ffd000;box-shadow:0 0 10px #ffd000}
+.meter.active .red{background:#ff2020;box-shadow:0 0 10px #ff2020;animation:redf .25s infinite}
+@keyframes redf{50%{opacity:.45}}
+.labels{display:flex;gap:5px;color:#aaa;font-size:12px}.labels span{width:18px;text-align:center}
+.audio{font-size:11px;letter-spacing:2px;color:#39ff14;margin-top:5px}
+
+.control{margin-top:14px;border:2px solid #1e5d1e;border-radius:12px;background:linear-gradient(#111,#030303);box-shadow:0 0 16px #123812,inset 0 0 16px #000;padding:16px;display:grid;grid-template-columns:1fr;gap:12px;align-items:center;justify-items:center;text-align:center}
+.now{grid-column:1}.now h2{margin:0 0 9px;letter-spacing:7px;color:#39ff14;font-size:18px}.nowplay{font-size:30px;letter-spacing:3px;color:#ddd;text-shadow:0 0 10px #777}
+.disconnect{width:180px;padding:13px;font-size:15px;font-weight:bold;cursor:pointer;color:#ff3333;background:#150505;border:2px solid #ff3333;border-radius:8px;box-shadow:0 0 14px #ff2020}
+.vol{border:1px solid #184818;border-radius:8px;padding:12px;background:#050505;width:300px;max-width:90%}.voltitle{letter-spacing:3px;color:#39ff14;margin-bottom:6px}input[type=range]{width:96%;accent-color:#39ff14}
+.status{font-size:13px;letter-spacing:2px;color:#d7d7d7}
+
+@media(max-width:720px){
+ .radar{display:none}.header h1{font-size:28px}.header .tag{font-size:14px;letter-spacing:5px}
+ .channel{grid-template-columns:1fr}.info{border-left:0;border-top:3px solid #39ff14}.connect{position:static;margin:8px 0}.name{font-size:28px}
+ .control{grid-template-columns:1fr}.now{grid-column:1}.logo{height:180px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="radar left"><div class="sweep"></div><span class="blip a"></span><span class="blip b"></span><span class="blip c"></span></div>
+    <div><h1>BATTLEFIELDRADIO.NET</h1><div class="sub">LIVE BROADCASTS • MUSIC 24/7/365 • ONLINE RADIO</div></div>
+    <div class="radar right"><div class="sweep"></div><span class="blip a"></span><span class="blip b"></span><span class="blip c"></span></div>
+  </div>
+
+  <section class="channel" id="mainCard">
+    <div class="logo"><img src="images/main-logo.png" alt="CANUCK RADIO logo"></div>
+    <div class="info">
+      <div class="topline"><div class="num">1</div><div class="label">STREAMING CHANNEL</div></div>
+      <div class="name">CANUCK RADIO</div>
+      <div class="signal" id="mainSignal">● READY TO TRANSMIT</div>
+      <button class="connect" onclick="connectStation('https://ice3.securenetsystems.net/VRAD1','CANUCK RADIO','mainCard','mainSignal','mainMeter')">📡 CONNECT</button>
+      <div class="meter" id="mainMeter"><div class="block green"></div><div class="block green"></div><div class="block green"></div><div class="block yellow"></div><div class="block yellow"></div><div class="block yellow"></div><div class="block red"></div><div class="block red"></div></div>
+      <div class="labels"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div><div class="audio">AUDIO LEVEL</div>
+    </div>
+  </section>
+
+  <section class="channel" id="liveCard">
+    <div class="logo"><img src="images/live-logo.png" alt="VETERANS RADIO logo"></div>
+    <div class="info">
+      <div class="topline"><div class="num">2</div><div class="label">STREAMING CHANNEL</div></div>
+      <div class="name">VETERANS RADIO</div>
+      <div class="signal" id="liveSignal">● READY TO TRANSMIT</div>
+      <button class="connect" onclick="connectStation('https://play.radioking.io/jimmy-corpslive','VETERANS RADIO','liveCard','liveSignal','liveMeter')">📡 CONNECT</button>
+      <div class="meter" id="liveMeter"><div class="block green"></div><div class="block green"></div><div class="block green"></div><div class="block yellow"></div><div class="block yellow"></div><div class="block yellow"></div><div class="block red"></div><div class="block red"></div></div>
+      <div class="labels"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div><div class="audio">AUDIO LEVEL</div>
+    </div>
+  </section>
+
+  <section class="channel" id="aiCard">
+    <div class="logo"><img src="images/ai-sonic-logo.png" alt="AI SONIC RADIO logo"></div>
+    <div class="info">
+      <div class="topline"><div class="num">3</div><div class="label">STREAMING CHANNEL</div></div>
+      <div class="name">AI SONIC RADIO</div>
+      <div class="signal" id="aiSignal">● READY TO TRANSMIT</div>
+      <button class="connect" onclick="connectStation('https://play.radioking.io/ai-sonic-radio','AI SONIC RADIO','aiCard','aiSignal','aiMeter')">📡 CONNECT</button>
+      <div class="meter" id="aiMeter"><div class="block green"></div><div class="block green"></div><div class="block green"></div><div class="block yellow"></div><div class="block yellow"></div><div class="block yellow"></div><div class="block red"></div><div class="block red"></div></div>
+      <div class="labels"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div><div class="audio">AUDIO LEVEL</div>
+    </div>
+  </section>
+
+  <div class="control">
+    <div class="now"><h2>NOW TRANSMITTING</h2><div class="nowplay" id="nowPlaying">NO CALL SIGN SELECTED</div></div>
+    <button class="disconnect" onclick="disconnectStation()">📴 DISCONNECT</button>
+    <div class="vol"><div class="voltitle">🔊 VOLUME</div><input type="range" min="0" max="100" value="50" oninput="setVolume(this.value)"></div>
+    <div class="status" id="status">● SYSTEM READY TO TRANSMIT</div>
+  </div>
+
+  <audio id="player"></audio>
+</div>
+
+<script>
+const player=document.getElementById("player");
+const nowPlaying=document.getElementById("nowPlaying");
+const statusText=document.getElementById("status");
+player.volume=0.5;
+
+function resetCards(){
+  ["mainCard","liveCard","aiCard"].forEach(id=>document.getElementById(id).classList.remove("active"));
+  document.getElementById("mainSignal").innerHTML="● READY TO TRANSMIT";
+  document.getElementById("liveSignal").innerHTML="● READY TO TRANSMIT";
+  document.getElementById("aiSignal").innerHTML="● READY TO TRANSMIT";
+  ["mainMeter","liveMeter","aiMeter"].forEach(id=>document.getElementById(id).classList.remove("active"));
+}
+
+function connectStation(streamUrl,stationName,cardId,signalId,meterId){
+  statusText.innerHTML="● LOCKING SIGNAL...";
+  player.pause(); player.src=streamUrl; player.load(); player.play();
+  resetCards();
+  document.getElementById(cardId).classList.add("active");
+  document.getElementById(signalId).innerHTML="● TRANSMITTING";
+  document.getElementById(meterId).classList.add("active");
+  nowPlaying.innerHTML=stationName;
+  statusText.innerHTML="● SIGNAL LOCKED: "+stationName;
+}
+
+function disconnectStation(){
+  player.pause(); player.src=""; player.load();
+  resetCards();
+  nowPlaying.innerHTML="NO CALL SIGN SELECTED";
+  statusText.innerHTML="● TRANSMISSION DISCONNECTED";
+}
+
+function setVolume(value){player.volume=value/100}
+</script>
+
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function() {
+    navigator.serviceWorker.register("service-worker.js");
+  });
+}
+</script>
+
+</body>
+</html>
