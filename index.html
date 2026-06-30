@@ -67,24 +67,70 @@ box-shadow:inset 1px 1px 2px rgba(255,255,255,.6),0 0 2px #000;
 .status{font-size:13px;letter-spacing:2px;color:#d7d7d7}
 
 @media(max-width:720px){
- .app{width:100%;padding:8px}
- .radar{display:none}
- .header{height:auto;padding:16px 10px}
- .header h1{font-size:24px;letter-spacing:1px}
- .header .sub{font-size:9px;letter-spacing:1px}
- .channel{grid-template-columns:1fr;padding:8px}
- .logo{height:150px}
- .info{border-left:0;border-top:3px solid #39ff14;padding:12px;text-align:center;min-height:auto}
- .topline{justify-content:center}
- .name{font-size:24px;max-width:100%}
- .signal{display:block;margin:8px auto 12px}
- .connect{position:static;display:block;margin:10px auto;width:180px}
- .meter,.labels{justify-content:center}
- .control{padding:12px}
- .disconnect{width:200px}
- .vol{width:100%;max-width:320px}
- .nowplay{font-size:22px;letter-spacing:1px}
+ .radar{display:none}.header h1{font-size:28px}.header .tag{font-size:14px;letter-spacing:5px}
+ .channel{grid-template-columns:1fr}.info{border-left:0;border-top:3px solid #39ff14}.connect{position:static;margin:8px 0}.name{font-size:28px}
+ .control{grid-template-columns:1fr}.now{grid-column:1}.logo{height:180px}
 }
+
+/* VERSION 5.1 - PHONE LANDSCAPE MODE */
+@media (max-width:720px) and (orientation:portrait){
+  html,body{width:100%;height:100%;overflow:hidden;background:#000;}
+  body::before{
+    content:"ROTATE PHONE FOR BEST VIEW";
+    position:fixed;left:50%;top:8px;transform:translateX(-50%);
+    z-index:9999;color:#39ff14;font-size:12px;letter-spacing:2px;
+    text-shadow:0 0 8px #39ff14;pointer-events:none;
+  }
+  .app{
+    position:fixed;left:50%;top:50%;
+    width:100vh;max-width:none;height:100vw;
+    overflow-y:auto;overflow-x:hidden;
+    transform:translate(-50%,-50%) rotate(90deg);
+    transform-origin:center center;padding:8px;
+  }
+  .header{height:105px;min-height:105px;margin-bottom:8px;}
+  .header h1{font-size:30px;}
+  .header .sub{font-size:10px;letter-spacing:3px;}
+  .radar{display:block;width:62px;height:62px;top:20px;}
+  .radar.left{left:14px}.radar.right{right:14px}
+  .sweep:before{height:27px;}
+  .channel{grid-template-columns:165px 1fr;min-height:145px;margin:8px 0;padding:8px;gap:9px;}
+  .logo{height:125px;}
+  .info{border-left:3px solid #39ff14;border-top:0;min-height:125px;padding:6px 8px 6px 12px;text-align:left;}
+  .topline{justify-content:flex-start;margin-bottom:5px;}
+  .num{width:28px;height:28px;font-size:17px;}
+  .label{font-size:9px;letter-spacing:1px;padding:4px 7px;}
+  .name{font-size:23px;margin:4px 0 7px;max-width:220px;}
+  .signal{font-size:10px;padding:6px 8px;margin-bottom:5px;}
+  .connect{position:absolute;right:8px;top:60px;width:118px;padding:10px 6px;font-size:13px;margin:0;}
+  .meter{justify-content:flex-start;gap:4px;margin:8px 0 4px;}
+  .block{width:14px;height:11px;}
+  .labels{justify-content:flex-start;gap:4px;font-size:10px;}
+  .labels span{width:14px;}
+  .audio{font-size:9px;margin-top:3px;}
+  .control{margin-top:8px;padding:10px;gap:8px;}
+  .now h2{font-size:14px;letter-spacing:4px;}
+  .nowplay{font-size:20px;letter-spacing:2px;}
+  .disconnect{width:175px;padding:10px;font-size:13px;}
+  .vol{width:260px;max-width:90%;padding:9px;}
+  .status{font-size:11px;}
+}
+@media (max-width:720px) and (orientation:landscape){
+  .app{width:min(760px,96vw);padding:8px;}
+  .header{height:105px;margin-bottom:8px;}
+  .header h1{font-size:30px;}
+  .header .sub{font-size:10px;letter-spacing:3px;}
+  .radar{display:block;width:62px;height:62px;top:20px;}
+  .radar.left{left:14px}.radar.right{right:14px}
+  .channel{grid-template-columns:165px 1fr;min-height:145px;margin:8px 0;padding:8px;gap:9px;}
+  .logo{height:125px;}
+  .info{border-left:3px solid #39ff14;border-top:0;min-height:125px;padding:6px 8px 6px 12px;text-align:left;}
+  .topline{justify-content:flex-start;margin-bottom:5px;}
+  .name{font-size:23px;margin:4px 0 7px;}
+  .connect{position:absolute;right:8px;top:60px;width:118px;padding:10px 6px;font-size:13px;}
+  .meter,.labels{justify-content:flex-start;}
+}
+
 </style>
 </head>
 <body>
