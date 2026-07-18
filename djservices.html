@@ -359,53 +359,7 @@
       color: var(--cyan);
       text-decoration: none;
     }
-
-
-    .booking-form {
-      margin-top: 26px;
-      text-align: left;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .booking-form label {
-      display: block;
-      color: #dce4ee;
-      font-weight: 700;
-      font-size: .95rem;
-    }
-
-    .booking-form input,
-    .booking-form select,
-    .booking-form textarea {
-      width: 100%;
-      margin-top: 7px;
-      padding: 14px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: #070a0f;
-      color: var(--text);
-      font: inherit;
-    }
-
-    .booking-form textarea {
-      resize: vertical;
-      margin-bottom: 18px;
-    }
-
-    .booking-form input:focus,
-    .booking-form select:focus,
-    .booking-form textarea:focus {
-      outline: 2px solid rgba(24,184,255,.45);
-      border-color: var(--blue);
-    }
-
-    footer {
+footer {
       padding: 28px 0 42px;
       text-align: center;
       color: #7f8a97;
@@ -437,8 +391,7 @@
       .services-grid,
       .events { grid-template-columns: 1fr; }
       .contact-box { padding: 34px 22px; }
-      .form-grid { grid-template-columns: 1fr; }
-    }
+}
   </style>
 </head>
 <body>
@@ -563,58 +516,7 @@
             We will help put together the right setup for your crowd.
           </p>
           <a class="contact-email" href="mailto:cyrenne@veteransradio.ca">cyrenne@veteransradio.ca</a>
-
-          <form class="booking-form" action="https://formsubmit.co/cyrenne@veteransradio.ca" method="POST">
-            <input type="hidden" name="_subject" value="New VETERANSRADIO.CA DJ Services Booking Request">
-            <input type="hidden" name="_captcha" value="false">
-
-            <div class="form-grid">
-              <label>
-                Your Name
-                <input type="text" name="Name" required>
-              </label>
-
-              <label>
-                Email Address
-                <input type="email" name="Email" required>
-              </label>
-
-              <label>
-                Phone Number
-                <input type="tel" name="Phone">
-              </label>
-
-              <label>
-                Event Date
-                <input type="date" name="Event Date">
-              </label>
-
-              <label>
-                Type of Service
-                <select name="Service" required>
-                  <option value="">Choose a service</option>
-                  <option>DJ Services</option>
-                  <option>Karaoke</option>
-                  <option>Storefront / Business Event</option>
-                  <option>Special Event</option>
-                  <option>Other</option>
-                </select>
-              </label>
-
-              <label>
-                Event Location
-                <input type="text" name="Location">
-              </label>
-            </div>
-
-            <label>
-              Tell Us About Your Event
-              <textarea name="Message" rows="6" required></textarea>
-            </label>
-
-            <button class="btn btn-primary" type="submit">Request A Booking</button>
-          </form>
-        </div>
+</div>
       </div>
     </section>
   </main>
