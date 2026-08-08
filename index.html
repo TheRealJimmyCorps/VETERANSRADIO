@@ -141,10 +141,34 @@ box-shadow:inset 1px 1px 2px rgba(255,255,255,.6),0 0 2px #000;
     <div class="radar right"><div class="sweep"></div><span class="blip a"></span><span class="blip b"></span><span class="blip c"></span></div>
   </div>
 
+  <section class="channel" id="tributeCard">
+    <div class="logo"><img src="images/tribute-logo.png" alt="TRIBUTE RADIO logo"></div>
+    <div class="info">
+      <div class="topline"><div class="num">1</div><div class="label">STREAMING CHANNEL</div></div>
+      <div class="name">TRIBUTE RADIO</div>
+      <div class="signal" id="tributeSignal">● READY TO TRANSMIT</div>
+      <button class="connect" onclick="connectStation('https://play.radioking.io/jimmy-corpslive','TRIBUTE RADIO','tributeCard','tributeSignal','tributeMeter')">📡 CONNECT</button>
+      <div class="meter" id="tributeMeter"><div class="block green"></div><div class="block green"></div><div class="block green"></div><div class="block yellow"></div><div class="block yellow"></div><div class="block yellow"></div><div class="block red"></div><div class="block red"></div></div>
+      <div class="labels"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div><div class="audio">AUDIO LEVEL</div>
+    </div>
+  </section>
+
+  <section class="channel" id="liveCard">
+    <div class="logo"><img src="images/live-logo.png" alt="VETERANSRADIO.CA logo"></div>
+    <div class="info">
+      <div class="topline"><div class="num">2</div><div class="label">STREAMING CHANNEL</div></div>
+      <div class="name">VETERANSRADIO.CA</div>
+      <div class="signal" id="liveSignal">● READY TO TRANSMIT</div>
+      <button class="connect" onclick="connectStation('https://cc141.cir.st/VLIVE','VETERANSRADIO.CA','liveCard','liveSignal','liveMeter')">📡 CONNECT</button>
+      <div class="meter" id="liveMeter"><div class="block green"></div><div class="block green"></div><div class="block green"></div><div class="block yellow"></div><div class="block yellow"></div><div class="block yellow"></div><div class="block red"></div><div class="block red"></div></div>
+      <div class="labels"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div><div class="audio">AUDIO LEVEL</div>
+    </div>
+  </section>
+
   <section class="channel" id="mainCard">
     <div class="logo"><img src="images/main-logo.png" alt="CANUCK RADIO logo"></div>
     <div class="info">
-      <div class="topline"><div class="num">1</div><div class="label">STREAMING CHANNEL</div></div>
+      <div class="topline"><div class="num">3</div><div class="label">STREAMING CHANNEL</div></div>
       <div class="name">CANUCK RADIO</div>
       <div class="signal" id="mainSignal">● READY TO TRANSMIT</div>
       <button class="connect" onclick="connectStation('https://ice3.securenetsystems.net/VRAD1','CANUCK RADIO','mainCard','mainSignal','mainMeter')">📡 CONNECT</button>
@@ -153,22 +177,10 @@ box-shadow:inset 1px 1px 2px rgba(255,255,255,.6),0 0 2px #000;
     </div>
   </section>
 
-  <section class="channel" id="liveCard">
-    <div class="logo"><img src="images/live-logo.png" alt="VETERANS RADIO logo"></div>
-    <div class="info">
-      <div class="topline"><div class="num">2</div><div class="label">STREAMING CHANNEL</div></div>
-      <div class="name">VETERANS RADIO</div>
-      <div class="signal" id="liveSignal">● READY TO TRANSMIT</div>
-      <button class="connect" onclick="connectStation('https://cc141.cir.st/VLIVE','VETERANS RADIO','liveCard','liveSignal','liveMeter')">📡 CONNECT</button>
-      <div class="meter" id="liveMeter"><div class="block green"></div><div class="block green"></div><div class="block green"></div><div class="block yellow"></div><div class="block yellow"></div><div class="block yellow"></div><div class="block red"></div><div class="block red"></div></div>
-      <div class="labels"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div><div class="audio">AUDIO LEVEL</div>
-    </div>
-  </section>
-
   <section class="channel" id="aiCard">
     <div class="logo"><img src="images/ai-sonic-logo.png" alt="AI SONIC RADIO logo"></div>
     <div class="info">
-      <div class="topline"><div class="num">3</div><div class="label">STREAMING CHANNEL</div></div>
+      <div class="topline"><div class="num">4</div><div class="label">STREAMING CHANNEL</div></div>
       <div class="name">AI SONIC RADIO</div>
       <div class="signal" id="aiSignal">● READY TO TRANSMIT</div>
       <button class="connect" onclick="connectStation('https://play.radioking.io/ai-sonic-radio','AI SONIC RADIO','aiCard','aiSignal','aiMeter')">📡 CONNECT</button>
@@ -194,11 +206,12 @@ const statusText=document.getElementById("status");
 player.volume=0.5;
 
 function resetCards(){
-  ["mainCard","liveCard","aiCard"].forEach(id=>document.getElementById(id).classList.remove("active"));
+  ["tributeCard","liveCard","mainCard","aiCard"].forEach(id=>document.getElementById(id).classList.remove("active"));
+  document.getElementById("tributeSignal").innerHTML="● READY TO TRANSMIT";
   document.getElementById("mainSignal").innerHTML="● READY TO TRANSMIT";
   document.getElementById("liveSignal").innerHTML="● READY TO TRANSMIT";
   document.getElementById("aiSignal").innerHTML="● READY TO TRANSMIT";
-  ["mainMeter","liveMeter","aiMeter"].forEach(id=>document.getElementById(id).classList.remove("active"));
+  ["tributeMeter","liveMeter","mainMeter","aiMeter"].forEach(id=>document.getElementById(id).classList.remove("active"));
 }
 
 function connectStation(streamUrl,stationName,cardId,signalId,meterId){
