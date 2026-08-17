@@ -159,7 +159,7 @@ box-shadow:inset 1px 1px 2px rgba(255,255,255,.6),0 0 2px #000;
       <div class="topline"><div class="num">2</div><div class="label">STREAMING CHANNEL</div></div>
       <div class="name">VETERANSRADIO.CA</div>
       <div class="signal" id="liveSignal">● READY TO TRANSMIT</div>
-      <button class="connect" onclick="connectStation('https://cc141.cir.st/VLIVE','VETERANSRADIO.CA','liveCard','liveSignal','liveMeter')">📡 CONNECT</button>
+      <button class="connect" onclick="connectVeteransRadio()">📡 CONNECT</button>
       <div class="meter" id="liveMeter"><div class="block green"></div><div class="block green"></div><div class="block green"></div><div class="block yellow"></div><div class="block yellow"></div><div class="block yellow"></div><div class="block red"></div><div class="block red"></div></div>
       <div class="labels"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div><div class="audio">AUDIO LEVEL</div>
     </div>
@@ -212,6 +212,24 @@ function resetCards(){
   document.getElementById("liveSignal").innerHTML="● READY TO TRANSMIT";
   document.getElementById("aiSignal").innerHTML="● READY TO TRANSMIT";
   ["tributeMeter","liveMeter","mainMeter","aiMeter"].forEach(id=>document.getElementById(id).classList.remove("active"));
+}
+
+
+function generatePlaySessionID(){
+  if (window.crypto && typeof window.crypto.randomUUID === "function") {
+    return window.crypto.randomUUID().toUpperCase();
+  }
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0;
+    const v = c === "x" ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  }).toUpperCase();
+}
+
+function connectVeteransRadio(){
+  const sessionID = generatePlaySessionID();
+  const streamUrl = "https://cc141.cir.st/VLIVE?playSessionID=" + sessionID;
+  connectStation(streamUrl,"VETERANSRADIO.CA","liveCard","liveSignal","liveMeter");
 }
 
 function connectStation(streamUrl,stationName,cardId,signalId,meterId){
